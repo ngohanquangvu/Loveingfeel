@@ -67,7 +67,7 @@ def Lovingfeel(id, locate_browser, img1, img2):
     button.click()
     time.sleep(1)  # Wait for the dialog to open
     pyautogui.write('"')
-    pyautogui.write(img1)
+    pyautogui.write(str(img1).replace("/","\\"))
     pyautogui.write('"')
     pyautogui.press("enter")
 
@@ -78,7 +78,7 @@ def Lovingfeel(id, locate_browser, img1, img2):
     button.click()
     time.sleep(1)  # Wait for the dialog to open
     pyautogui.write('"')
-    pyautogui.write(img2)
+    pyautogui.write(str(img2).replace("/","\\"))
     pyautogui.write('"')
     pyautogui.press("enter")
 
@@ -155,7 +155,7 @@ def Livebeam(id, locate_browser, img1, img2):
     button.click()
     time.sleep(1)  # Wait for the dialog to open
     pyautogui.write('"')
-    pyautogui.write(img1)
+    pyautogui.write(str(img1).replace("/","\\"))
     pyautogui.write('"')
     pyautogui.press("enter")
 
@@ -166,7 +166,7 @@ def Livebeam(id, locate_browser, img1, img2):
     button.click()
     time.sleep(1)  # Wait for the dialog to open
     pyautogui.write('"')
-    pyautogui.write(img2)
+    pyautogui.write(str(img2).replace("/","\\"))
     pyautogui.write('"')
     pyautogui.press("enter")
 
@@ -287,3 +287,5 @@ def sub_menu(name, data):
         os.system("cls")
 
 main_menu()
+
+
