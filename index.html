@@ -94,12 +94,11 @@ def Lovingfeel(id, locate_browser, img1, img2):
 def Livebeam(id, locate_browser, img1, img2):
     options = webdriver.ChromeOptions()
     options.binary_location = locate_browser
+    options.add_argument("--headless")
 
 
     driver = webdriver.Chrome(options, version_main=117)
     driver.set_window_size(400, 600)
-    driver2 = webdriver.Chrome(options, version_main=117)
-    driver2.set_window_size(400, 600)
 
     wait = WebDriverWait(driver, 10)
 
@@ -293,5 +292,3 @@ def sub_menu(name, data):
         os.system("cls")
 
 main_menu()
-
-
