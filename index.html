@@ -1,0 +1,297 @@
+def Lovingfeel(id, locate_browser, img1, img2):
+    # temp_dir = tempfile.mkdtemp()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    # options.add_argument(f"--user-data-dir={temp_dir}")
+    options.binary_location = locate_browser
+
+
+    driver = webdriver.Chrome(options, version_main=117)
+    wait = WebDriverWait(driver, 10)
+
+    driver.get("https://lovingfeel.com/signup/1")
+    driver.set_window_size(400, 600)
+
+
+    gender_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'gender-select__item')))
+    select = Select(gender_select)
+    select.select_by_index(f'{random.randint(1, 2)}')
+
+    month_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_month')))
+    select = Select(month_select)
+    select.select_by_index(f'{random.randint(1, 12)}')
+
+    day_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_day')))
+    select = Select(day_select)
+    select.select_by_index(f'{random.randint(1, 28)}')
+
+    year = random.choice(["1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000"])
+    year_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_year')))
+    select = Select(year_select)
+    select.select_by_visible_text(year)
+
+
+    def generate_random_email_and_password():
+
+        fake = Faker()
+        name = fake.first_name()
+        email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
+        password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
+
+        return name, email, password
+
+    name, email, password = generate_random_email_and_password()
+
+
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "input_email"))).send_keys(email)
+
+    password_input = wait.until(EC.presence_of_element_located((By.NAME, "password")))
+    password_input.send_keys(password)
+
+    name_input = wait.until(EC.presence_of_element_located((By.NAME, "firstname")))
+    name_input.send_keys(name)
+
+    element = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/section[1]/div/div/div/div/form/div/div[12]/div/div[1]/div[1]/label")))
+    driver.execute_script("arguments[0].click();", element)
+
+    submit_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "regform__btn")))
+    submit_button.click()
+
+    while driver.current_url != "https://lovingfeel.com/wizard/welcome?navigation=wizard":
+            time.sleep(5)
+
+    print("Đăng ký thành công")
+
+    driver.get(f"https://lovingfeel.com/user/{id}")
+    time.sleep(5)
+    driver.refresh()
+    time.sleep(5)
+    driver.refresh()
+
+    send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+    send_file.send_keys(img1)
+
+    time.sleep(2)
+
+    
+    send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+    send_file.send_keys(img2)
+
+
+    time.sleep(2)
+    print("Gửi ảnh thành công")
+
+    block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@dropdown-more cmp:ui-button click:on-block]")))
+    driver.execute_script("arguments[0].click();", block_button)
+    done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
+    try:
+        done_block_button.click()
+    except:pass
+    time.sleep(2)
+    print("Block thành công")
+    driver.quit()
+
+def Livebeam(id, locate_browser, img1, img2):
+    options = webdriver.ChromeOptions()
+    options.binary_location = locate_browser
+
+
+    driver = webdriver.Chrome(options, version_main=117)
+    driver.set_window_size(400, 600)
+    driver2 = webdriver.Chrome(options, version_main=117)
+    driver2.set_window_size(400, 600)
+
+    wait = WebDriverWait(driver, 10)
+
+    driver.get("https://livebeam.com/signup/1")
+
+
+    gender_select = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/main/section[7]/div/div/div[1]/div[2]/div/form/div[1]/div[1]/label[2]')))
+    driver.execute_script("arguments[0].click();", gender_select)
+
+    year = random.choice(["1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000"])
+    day = random.randint(10, 28)
+    month = random.randint(1,12)
+    if month <10: month = f"0{month}"
+
+
+    age_select = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/main/section[7]/div/div/div[1]/div[2]/div/form/div[2]/div[2]/div[1]/input')))
+    age_select.send_keys(fr'{month}{day}{year}')
+
+    def generate_random_email_and_password():
+
+        fake = Faker()
+        name = fake.first_name()
+        email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
+        password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
+
+        return name, email, password
+
+    name, email, password = generate_random_email_and_password()
+
+    name_input = wait.until(EC.presence_of_element_located((By.NAME, "firstname")))
+    name_input.send_keys(name)
+
+    element = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/main/section[7]/div/div/div[1]/div[2]/div/form/div[3]/div[1]/div[1]/label")))
+    driver.execute_script("arguments[0].click();", element)
+
+    submit_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "btn_form")))
+    submit_button.click()
+
+    wait.until(EC.presence_of_element_located((By.NAME, "email"))).send_keys(email)
+
+    password_input = wait.until(EC.presence_of_element_located((By.NAME, "password")))
+    password_input.send_keys(password)
+
+    submit = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/main/section[7]/div/div/div[1]/div[2]/div/form/button")))
+    driver.execute_script("arguments[0].click();", submit)
+
+    print("Hoàn thành đăng ký")
+
+    while driver.current_url != "https://livebeam.com/wizard/welcome?navigation=wizard":
+            time.sleep(5)
+    driver.get(f"https://livebeam.com/user/{id}")
+    time.sleep(5)
+    driver.refresh()
+    time.sleep(5)
+    driver.refresh()
+    time.sleep(1)
+
+    send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+    send_file.send_keys(img1)
+
+    time.sleep(2)
+
+    
+    send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+    send_file.send_keys(img2)
+
+    time.sleep(2)
+    time.sleep(2)
+
+    print("Gửi ảnh thành công")
+    driver.refresh()
+
+    block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
+    driver.execute_script("arguments[0].click();", block_button)
+    done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
+    try:
+        done_block_button.click()
+    except:pass
+    time.sleep(2)
+
+    print("Block thành công")
+    driver.quit()
+
+def select_image():
+    Tk().withdraw()
+    filename = askopenfilename() 
+    return filename
+
+def load_data():
+    try:
+        with open('data.json', 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        data = {"Loveingfeel": {"id": "", "browser_locate": "", "image1": "", "image2": ""},
+                "Livebeam": {"id": "", "browser_locate": "", "image1": "", "image2": ""}}
+    return data
+
+def save_data(data):
+    with open('data.json', 'w') as f:
+        json.dump(data, f)
+
+def main_menu():
+    data = load_data()
+    while True:
+        print("1. Loveingfeel")
+        print("2. Livebeam")
+        print("3. Quit")
+        choice = input("Nhập lựa chọn của bạn: ")
+        if choice == "1":
+            os.system("cls")
+            sub_menu("Loveingfeel", data)
+            save_data(data)
+        elif choice == "2":
+            os.system("cls")
+            sub_menu("Livebeam", data)
+            save_data(data)
+        elif choice == "3":
+            print("Đang thoát chương trình...")
+            break
+        else:
+            print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
+        os.system("cls")
+
+def get_positive_integer(text):
+    while True:
+        try:
+            value = int(input(text))
+            if value > 0:
+                return value
+            else:
+                pass
+        except ValueError:
+            pass
+
+def sub_menu(name, data):
+    while True:
+        print(f"Menu {name}")
+        print(f"ID: {data[name]['id']}")
+        print(f"Browser locate: {data[name]['browser_locate']}")
+        print(f"Image 1: {data[name]['image1']}")
+        print(f"Image 2: {data[name]['image2']}")
+        print("1. ID")
+        print("2. Browser locate")
+        print("3. Image")
+        print("4. Start")
+        print("5. Quay lại menu chính")
+        choice = input("Nhập lựa chọn của bạn: ")
+        if choice == "1":
+            os.system("cls")
+            data[name]['id'] = input("Nhập ID: ")
+            save_data(data)
+            os.system("cls")
+        elif choice == "2":
+            os.system("cls")
+            data[name]['browser_locate'] = str(input("Nhập Browser locate: "))
+            save_data(data)
+            os.system("cls")
+        elif choice == "3":
+            os.system("cls")
+            data[name]['image1'] = str(select_image())
+            data[name]['image2'] = str(select_image())
+            save_data(data)
+            os.system("cls")
+        elif choice == "5":
+            os.system("cls")
+            break
+        elif choice == "4":
+            acc = get_positive_integer("NHẬP SỐ ACC ĐỂ SPAM: ")
+            os.system("cls")
+            if name == "Loveingfeel":
+                while acc>0:
+                        try:
+                            Lovingfeel(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'])
+                            acc-=1
+                            print("Send thành công!!!")
+                        except:
+                            print("Send không thành công!!!")
+                            pass
+            else:
+                while acc>0:
+                        try:
+                            Livebeam(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'])
+                            acc-=1
+                            print("Send thành công!!!")
+                        except:
+                            print("Send không thành công!!!")
+                            pass
+
+        else:
+            print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
+        os.system("cls")
+
+main_menu()
+
+
