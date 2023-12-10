@@ -105,8 +105,9 @@ def sub_menu(name, data):
 
             submit_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "regform__btn")))
             submit_button.click()
-
-            while driver.current_url == "https://lovingfeel.com/signup/1":
+            d=0
+            while (driver.current_url == "https://lovingfeel.com/signup/1") or (d<3):
+                    d+=1
                     time.sleep(5)
 
             print("Đăng ký thành công")
@@ -209,8 +210,9 @@ def sub_menu(name, data):
             driver.execute_script("arguments[0].click();", submit)
 
             print("Hoàn thành đăng ký")
-            d=3
-            while driver.current_url == "https://livebeam.com/signup/1":
+            d=0
+            while (driver.current_url == "https://livebeam.com/signup/1") or (d<3):
+                    d+=1
                     time.sleep(5)
             driver.get(f"https://livebeam.com/user/{id}")
             time.sleep(5)
