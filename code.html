@@ -9,7 +9,7 @@ def load_data():
             data = json.load(f)
     except FileNotFoundError:
         data = {"Loveingfeel": {"id": "", "browser_locate": "", "image1": "", "image2": ""},
-                "Livebeam": {"id": "", "browser_locate": "", "image1": "", "image2": ""}}
+                "Livebeam": {"id": "", "browser_locate": "", "image1": "", "image2": ""},}
     return data
 
 def save_data(data):
@@ -158,11 +158,118 @@ def sub_menu(name, data):
             driver.quit()
             Lovingfeel(id, locate_browser, img1, img2)
 
+    def asian(id, locate_browser, img1, img2):
+        options = uc.ChromeOptions()
+
+
+        driver = uc.Chrome(driver_executable_path=r"undetected_chromedriver.exe", options=options, version_main=117, browser_executable_path=locate_browser)
+        driver.set_window_size(500, 800)
+
+        wait = WebDriverWait(driver, 10)
+        try:
+
+            def generate_random_email_and_password():
+
+                fake = Faker()
+                name = fake.first_name()
+                email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
+                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
+
+                return name, email, password
+
+            name, email, password = generate_random_email_and_password()
+
+            driver.get("https://asianmelodies.com/signup/1")
+
+            gender_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'gender-select__item')))
+            select = Select(gender_select)
+            select.select_by_index(f'{random.randint(1, 2)}')
+
+            month_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_month')))
+            select = Select(month_select)
+            select.select_by_index(f'{random.randint(1, 12)}')
+
+            day_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_day')))
+            select = Select(day_select)
+            select.select_by_index(f'{random.randint(1, 28)}')
+
+            year = random.choice(["1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000"])
+            year_select = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'select_year')))
+            select = Select(year_select)
+            select.select_by_visible_text(year)
+
+            time.sleep(2)
+
+
+            wait.until(EC.presence_of_element_located((By.CLASS_NAME, "input_email"))).send_keys(email)
+
+            password_input = wait.until(EC.presence_of_element_located((By.NAME, "password")))
+            password_input.send_keys(password)
+
+            name_input = wait.until(EC.presence_of_element_located((By.NAME, "firstname")))
+            name_input.send_keys(name)
+
+            element = wait.until(EC.presence_of_element_located((By.ID, "terms-agree")))
+            driver.execute_script("arguments[0].click();", element)
+
+            submit_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "btn_regform")))
+            submit_button.click()
+            print("Nhấn nút đăng ký")
+            d=0
+            while (driver.current_url == "https://asianmelodies.com/signup/1") and (d<3):
+                    d+=1
+                    time.sleep(5)
+                    if d>=3:
+                        driver.quit()
+                        asian(id, locate_browser, img1, img2)
+
+            print("Đăng ký thành công")
+
+            driver.get(f"https://asianmelodies.com/user/{id}")
+            time.sleep(5)
+            driver.refresh()
+            time.sleep(5)
+            driver.refresh()
+
+            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file.send_keys(img1)
+
+            try:
+                done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
+            except: time.sleep(5)
+
+            
+            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file.send_keys(img2)
+
+            try:
+                done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
+            except: time.sleep(5)
+
+
+            time.sleep(5)
+            print("Gửi ảnh thành công")
+
+            while True:
+                try:
+
+                    block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
+                    driver.execute_script("arguments[0].click();", block_button)
+                    done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
+                    done_block_button.click()
+                    time.sleep(2)
+                    print("Block thành công")
+                    break
+                except: pass
+            driver.quit()
+        except:
+             driver.quit()
+             asian(id, locate_browser, img1, img2)
+
     def Livebeam(id, locate_browser, img1, img2):
         options = uc.ChromeOptions()
         options.add_argument("--enable-javascript")
-
-
+         
         driver = uc.Chrome(driver_executable_path=r"undetected_chromedriver.exe",options=options, version_main=117, browser_executable_path=locate_browser)
         driver.set_window_size(400, 600)
         try:
@@ -300,7 +407,7 @@ def sub_menu(name, data):
             if name == "Loveingfeel":
                         try:
                             t1 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
-                            t2 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+                            t2 = threading.Thread(target=asian, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
 
                             t1.start()
                             t2.start()
