@@ -405,6 +405,21 @@ def sub_menu(name, data):
             acc = get_positive_integer("NHẬP SỐ ACC ĐỂ SPAM: ")
             os.system("cls")
             if name == "Loveingfeel":
+                    while acc>0:
+                        try:
+                            t1 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+                            t2 = threading.Thread(target=asian, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+
+                            t1.start()
+                            t2.start()
+
+                            t1.join()
+                            t2.join()
+                            acc-=2
+                            print("Send thành công!!!")
+                        except:
+                            print("Send không thành công!!!")
+                            pass
                         try:
                             t1 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
                             t2 = threading.Thread(target=asian, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
