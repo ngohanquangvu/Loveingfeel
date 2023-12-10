@@ -120,11 +120,17 @@ def sub_menu(name, data):
             send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
             send_file.send_keys(img1)
 
-            time.sleep(5)
+            try:
+                done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
+            except: time.sleep(2)
 
             
             send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
             send_file.send_keys(img2)
+
+            try:
+                done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
+            except: time.sleep(2)
 
 
             time.sleep(2)
@@ -222,6 +228,10 @@ def sub_menu(name, data):
             
             send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
             send_file.send_keys(img2)
+
+            try:
+                done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[7]/div/div/div[2]/div/div[3]/button[2]")))
+            except: time.sleep(2)
 
             time.sleep(2)
 
