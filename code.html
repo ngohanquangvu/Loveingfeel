@@ -144,7 +144,7 @@ def sub_menu(name, data):
 
             while True:
                 try:
-
+                    driver.refresh() 
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
@@ -252,7 +252,7 @@ def sub_menu(name, data):
 
             while True:
                 try:
-
+                    driver.refresh() 
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
@@ -356,6 +356,7 @@ def sub_menu(name, data):
             print("Gửi ảnh thành công")
             while True:
                 try:
+                    driver.refresh() 
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
