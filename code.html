@@ -161,11 +161,10 @@ def sub_menu(name, data):
     def Livebeam(id, locate_browser, img1, img2):
         options = uc.ChromeOptions()
         options.add_argument("--enable-javascript")
-        driver.set_window_size(400, 600)
 
 
         driver = uc.Chrome(driver_executable_path=r"undetected_chromedriver.exe",options=options, version_main=117, browser_executable_path=locate_browser)
-        driver.minimize_window()
+        driver.set_window_size(400, 600)
         try:
             def generate_random_email_and_password():
 
