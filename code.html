@@ -55,10 +55,21 @@ def sub_menu(name, data):
 
 
         driver = uc.Chrome(driver_executable_path=r"undetected_chromedriver.exe", options=options, version_main=117, browser_executable_path=locate_browser)
-        driver.minimize_window()
+        driver.set_window_size(500, 800)
 
         wait = WebDriverWait(driver, 10)
         try:
+
+            def generate_random_email_and_password():
+
+                fake = Faker()
+                name = fake.first_name()
+                email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
+                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
+
+                return name, email, password
+
+            name, email, password = generate_random_email_and_password()
 
             driver.get("https://lovingfeel.com/signup/1")
 
@@ -79,17 +90,7 @@ def sub_menu(name, data):
             select = Select(year_select)
             select.select_by_visible_text(year)
 
-
-            def generate_random_email_and_password():
-
-                fake = Faker()
-                name = fake.first_name()
-                email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
-                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
-
-                return name, email, password
-
-            name, email, password = generate_random_email_and_password()
+            time.sleep(2)
 
 
             wait.until(EC.presence_of_element_located((By.CLASS_NAME, "input_email"))).send_keys(email)
@@ -105,10 +106,14 @@ def sub_menu(name, data):
 
             submit_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "regform__btn")))
             submit_button.click()
+            print("Nhấn nút đăng ký")
             d=0
-            while (driver.current_url == "https://lovingfeel.com/signup/1") or (d<3):
+            while (driver.current_url == "https://lovingfeel.com/signup/1") and (d<3):
                     d+=1
                     time.sleep(5)
+                    if d>=3:
+                        driver.quit()
+                        Lovingfeel(id, locate_browser, img1, img2)
 
             print("Đăng ký thành công")
 
@@ -123,7 +128,7 @@ def sub_menu(name, data):
 
             try:
                 done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
-            except: time.sleep(2)
+            except: time.sleep(5)
 
             
             send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
@@ -131,20 +136,23 @@ def sub_menu(name, data):
 
             try:
                 done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
-            except: time.sleep(2)
+            except: time.sleep(5)
 
 
-            time.sleep(2)
+            time.sleep(5)
             print("Gửi ảnh thành công")
 
-            block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
-            driver.execute_script("arguments[0].click();", block_button)
-            done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
-            try:
-                done_block_button.click()
-            except:pass
-            time.sleep(2)
-            print("Block thành công")
+            while True:
+                try:
+
+                    block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
+                    driver.execute_script("arguments[0].click();", block_button)
+                    done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
+                    done_block_button.click()
+                    time.sleep(2)
+                    print("Block thành công")
+                    break
+                except: pass
             driver.quit()
         except:
             driver.quit()
@@ -153,11 +161,22 @@ def sub_menu(name, data):
     def Livebeam(id, locate_browser, img1, img2):
         options = uc.ChromeOptions()
         options.add_argument("--enable-javascript")
+        driver.set_window_size(400, 600)
 
 
         driver = uc.Chrome(driver_executable_path=r"undetected_chromedriver.exe",options=options, version_main=117, browser_executable_path=locate_browser)
         driver.minimize_window()
         try:
+            def generate_random_email_and_password():
+
+                fake = Faker()
+                name = fake.first_name()
+                email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
+                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
+
+                return name, email, password
+
+            name, email, password = generate_random_email_and_password()
             wait = WebDriverWait(driver, 10)
 
             driver.get("https://livebeam.com/signup/1")
@@ -175,16 +194,7 @@ def sub_menu(name, data):
             age_select = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/main/section[7]/div/div/div[1]/div[2]/div/form/div[2]/div[2]/div[1]/input')))
             age_select.send_keys(fr'{month}{day}{year}')
 
-            def generate_random_email_and_password():
-
-                fake = Faker()
-                name = fake.first_name()
-                email = name.lower() + str(random.randint(0, 999)) + "@gmail.com"
-                password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(random.randint(8,10)))
-
-                return name, email, password
-
-            name, email, password = generate_random_email_and_password()
+        
 
             name_input = wait.until(EC.presence_of_element_located((By.NAME, "firstname")))
             name_input.send_keys(name)
@@ -226,29 +236,29 @@ def sub_menu(name, data):
 
             try:
                 done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[7]/div/div/div[2]/div/div[3]/button[2]")))
-            except: time.sleep(2)
+            except: time.sleep(5)
             
             send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
             send_file.send_keys(img2)
 
             try:
                 done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[7]/div/div/div[2]/div/div[3]/button[2]")))
-            except: time.sleep(2)
+            except: time.sleep(5)
 
-            time.sleep(2)
+            time.sleep(5)
 
             print("Gửi ảnh thành công")
-            driver.refresh()
+            while True:
+                try:
+                    block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
+                    driver.execute_script("arguments[0].click();", block_button)
+                    done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
+                    done_block_button.click()
+                    time.sleep(2)
+                    print("Block thành công")
+                    break
+                except:pass
 
-            block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
-            driver.execute_script("arguments[0].click();", block_button)
-            done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
-            try:
-                done_block_button.click()
-            except:pass
-            time.sleep(2)
-
-            print("Block thành công")
             driver.quit()
         except:
             driver.quit()
@@ -290,13 +300,14 @@ def sub_menu(name, data):
             os.system("cls")
             if name == "Loveingfeel":
                         try:
-                            threads = []
-                            for i in range(2):
-                                threads.append(threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],)))
-                            for i in threads:
-                                i.start()
-                            for i in threads:
-                                i.join()
+                            t1 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+                            t2 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+
+                            t1.start()
+                            t2.start()
+
+                            t1.join()
+                            t2.join()
                             acc-=2
                             print("Send thành công!!!")
                         except:
@@ -305,13 +316,15 @@ def sub_menu(name, data):
             else:
                 while acc>0:
                         try:
-                            threads = []
-                            for i in range(2):
-                                threads.append(threading.Thread(target=Livebeam, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],)))
-                            for i in threads:
-                                i.start()
-                            for i in threads:
-                                i.join()
+                            
+                            t1 = threading.Thread(target=Livebeam, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+                            t2 = threading.Thread(target=Livebeam, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
+
+                            t1.start()
+                            t2.start()
+
+                            t1.join()
+                            t2.join()
                             acc-=2
                             print("Send thành công!!!")
                         except:
