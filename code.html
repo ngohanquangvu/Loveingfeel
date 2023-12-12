@@ -123,7 +123,7 @@ def sub_menu(name, data):
             time.sleep(5)
             driver.refresh()
 
-            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file = wait.until(EC.presence_of_element_located((By.NAME, "upload")))
             send_file.send_keys(img1)
 
             try:
@@ -131,7 +131,7 @@ def sub_menu(name, data):
             except: time.sleep(5)
 
             
-            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file = wait.until(EC.presence_of_element_located((By.NAME, "upload")))
             send_file.send_keys(img2)
 
             try:
@@ -144,7 +144,7 @@ def sub_menu(name, data):
 
             while True:
                 try:
-                    driver.refresh() 
+
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
@@ -231,15 +231,14 @@ def sub_menu(name, data):
             time.sleep(5)
             driver.refresh()
 
-            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file = wait.until(EC.presence_of_element_located((By.NAME, "upload")))
             send_file.send_keys(img1)
 
             try:
                 done_button = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[5]/div/div/div[2]/div/div[3]/button[2]")))
             except: time.sleep(5)
 
-            
-            send_file = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div[3]/main/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[1]/input")))
+            send_file = wait.until(EC.presence_of_element_located((By.NAME, "upload")))
             send_file.send_keys(img2)
 
             try:
@@ -252,7 +251,7 @@ def sub_menu(name, data):
 
             while True:
                 try:
-                    driver.refresh() 
+
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
@@ -356,7 +355,6 @@ def sub_menu(name, data):
             print("Gửi ảnh thành công")
             while True:
                 try:
-                    driver.refresh() 
                     block_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@data-test-id='dropdown-more cmp:ui-button click:on-block']")))
                     driver.execute_script("arguments[0].click();", block_button)
                     done_block_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@data-test-id='cmp:ui-button click:submit-form yes']")))
@@ -421,20 +419,6 @@ def sub_menu(name, data):
                         except:
                             print("Send không thành công!!!")
                             pass
-                        try:
-                            t1 = threading.Thread(target=Lovingfeel, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
-                            t2 = threading.Thread(target=asian, args=(data[name]['id'],data[name]['browser_locate'],data[name]['image1'],data[name]['image2'],))
-
-                            t1.start()
-                            t2.start()
-
-                            t1.join()
-                            t2.join()
-                            acc-=2
-                            print("Send thành công!!!")
-                        except:
-                            print("Send không thành công!!!")
-                            pass
             else:
                 while acc>0:
                         try:
@@ -458,3 +442,5 @@ def sub_menu(name, data):
         os.system("cls")
 
 main_menu()
+
+
